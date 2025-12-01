@@ -1,6 +1,6 @@
 use std::process::Command;
 
-use cli_table::{Cell, Style, Table, format::Justify, print_stdout};
+use cli_table::{Cell, Style, Table, TableStruct, format::Justify, print_stdout};
 use futures_util::TryStreamExt;
 use octocrab::models::{Followee, Follower};
 
@@ -9,32 +9,8 @@ static USER: &str = "ssiyad";
 #[tokio::main]
 async fn main() {
     octo_init();
-    let followers_table = followers()
-        .await
-        .iter()
-        .map(|user| {
-            vec![
-                user.login.clone().cell().justify(Justify::Left),
-                user.id.cell().justify(Justify::Right),
-            ]
-        })
-        .table()
-        .title(vec!["Username".cell().bold(true), "ID".cell().bold(true)])
-        .bold(true);
-    print_stdout(followers_table).ok();
-    let following_table = following()
-        .await
-        .iter()
-        .map(|user| {
-            vec![
-                user.login.clone().cell().justify(Justify::Left),
-                user.id.cell().justify(Justify::Right),
-            ]
-        })
-        .table()
-        .title(vec!["Username".cell().bold(true), "ID".cell().bold(true)])
-        .bold(true);
-    print_stdout(following_table).ok();
+    print_stdout(followers_table(followers().await)).ok();
+    print_stdout(following_table(following().await)).ok();
 }
 
 async fn followers() -> Vec<Follower> {
@@ -61,6 +37,34 @@ async fn following() -> Vec<Followee> {
         .try_collect::<Vec<Followee>>()
         .await
         .unwrap()
+}
+
+fn followers_table(users: Vec<Follower>) -> TableStruct {
+    users
+        .iter()
+        .map(|user| {
+            vec![
+                user.login.clone().cell().justify(Justify::Left),
+                user.id.cell().justify(Justify::Right),
+            ]
+        })
+        .table()
+        .title(vec!["Username".cell().bold(true), "ID".cell().bold(true)])
+        .bold(true)
+}
+
+fn following_table(users: Vec<Followee>) -> TableStruct {
+    users
+        .iter()
+        .map(|user| {
+            vec![
+                user.login.clone().cell().justify(Justify::Left),
+                user.id.cell().justify(Justify::Right),
+            ]
+        })
+        .table()
+        .title(vec!["Username".cell().bold(true), "ID".cell().bold(true)])
+        .bold(true)
 }
 
 fn octo_init() {
