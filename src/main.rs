@@ -1,14 +1,40 @@
+use std::process::Command;
+
+use cli_table::{Cell, Style, Table, format::Justify, print_stdout};
 use futures_util::TryStreamExt;
-use octocrab::models::{Followee, Follower, SimpleUser};
+use octocrab::models::{Followee, Follower};
 
 static USER: &str = "ssiyad";
 
 #[tokio::main]
 async fn main() {
-    // let octo = octocrab::instance();
-    let _followers = followers().await;
-    let _following = following().await;
-    // let following = octo.users("ssiyad").following().send().await.unwrap();
+    octo_init();
+    let followers_table = followers()
+        .await
+        .iter()
+        .map(|user| {
+            vec![
+                user.login.clone().cell().justify(Justify::Left),
+                user.id.cell().justify(Justify::Right),
+            ]
+        })
+        .table()
+        .title(vec!["Username".cell().bold(true), "ID".cell().bold(true)])
+        .bold(true);
+    print_stdout(followers_table).ok();
+    let following_table = following()
+        .await
+        .iter()
+        .map(|user| {
+            vec![
+                user.login.clone().cell().justify(Justify::Left),
+                user.id.cell().justify(Justify::Right),
+            ]
+        })
+        .table()
+        .title(vec!["Username".cell().bold(true), "ID".cell().bold(true)])
+        .bold(true);
+    print_stdout(following_table).ok();
 }
 
 async fn followers() -> Vec<Follower> {
@@ -37,12 +63,25 @@ async fn following() -> Vec<Followee> {
         .unwrap()
 }
 
-#[allow(dead_code)]
-async fn ghosts(followers: &Vec<Follower>, following: &Vec<Followee>) -> Vec<SimpleUser> {
-    todo!()
+fn octo_init() {
+    octocrab::initialise(
+        octocrab::OctocrabBuilder::default()
+            .personal_token(token())
+            .build()
+            .unwrap(),
+    );
 }
 
-#[allow(dead_code)]
-async fn lurkers(followers: &Vec<Follower>, following: &Vec<Followee>) -> Vec<SimpleUser> {
-    todo!()
+fn token() -> String {
+    String::from_utf8(
+        Command::new("gh")
+            .args(["auth", "token"])
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap()
+    .strip_suffix('\n')
+    .unwrap()
+    .to_string()
 }
