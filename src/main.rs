@@ -1,11 +1,12 @@
-use cli_table::print_stdout;
-use gh_followers::{config, sources, table};
+use gh_followers::{config, display, sources};
 
 #[tokio::main]
 async fn main() {
     let user = config::user();
     let token = config::token();
     sources::init(&token);
-    print_stdout(table::followers_table(sources::followers(&user).await)).ok();
-    print_stdout(table::following_table(sources::following(&user).await)).ok();
+    let followers = sources::followers(&user).await;
+    let following = sources::following(&user).await;
+    display::following(&following, &followers);
+    display::followers(&followers, &following);
 }

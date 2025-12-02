@@ -6,7 +6,7 @@ authors = ["Sabu Siyad <hello@ssiyad.com>"]
 
 [dependencies]
 futures-util = "0.3.28"
-cli-table = "0.5"
+colored = "3"
 
 [dependencies.tokio]
 version = "1.48.0"
