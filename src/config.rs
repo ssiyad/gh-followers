@@ -7,6 +7,10 @@ struct Args {
     /// GitHub username
     #[arg(long)]
     user: Option<String>,
+
+    /// GitHub token
+    #[arg(long)]
+    token: Option<String>,
 }
 
 fn parse() -> Args {
@@ -32,15 +36,19 @@ pub fn user() -> String {
 }
 
 pub fn token() -> String {
-    String::from_utf8(
-        Command::new("gh")
-            .args(["auth", "token"])
-            .output()
-            .unwrap()
-            .stdout,
-    )
-    .unwrap()
-    .strip_suffix('\n')
-    .unwrap()
-    .to_string()
+    let args = parse();
+    match args.token {
+        Some(token) => token,
+        None => String::from_utf8(
+            Command::new("gh")
+                .args(["auth", "token"])
+                .output()
+                .unwrap()
+                .stdout,
+        )
+        .unwrap()
+        .strip_suffix('\n')
+        .unwrap()
+        .to_string(),
+    }
 }
