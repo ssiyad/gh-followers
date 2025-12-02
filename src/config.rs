@@ -6,7 +6,7 @@ use std::process::Command;
 struct Args {
     /// GitHub username
     #[arg(long)]
-    user: String,
+    user: Option<String>,
 }
 
 fn parse() -> Args {
@@ -15,7 +15,20 @@ fn parse() -> Args {
 
 pub fn user() -> String {
     let args = parse();
-    args.user
+    match args.user {
+        Some(username) => username,
+        None => String::from_utf8(
+            Command::new("gh")
+                .args(["api", "/user", "--jq", ".login"])
+                .output()
+                .unwrap()
+                .stdout,
+        )
+        .unwrap()
+        .strip_suffix('\n')
+        .unwrap()
+        .to_string(),
+    }
 }
 
 pub fn token() -> String {
