@@ -4,6 +4,10 @@ use std::process::Command;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
+    /// Data to get
+    #[arg(default_value("ghosts"), value_parser = ["ghosts", "lurkers", "followers", "followees"])]
+    list: String,
+
     /// GitHub username
     #[arg(long)]
     user: Option<String>,
@@ -15,6 +19,11 @@ struct Args {
 
 fn parse() -> Args {
     Args::parse()
+}
+
+pub fn list() -> String {
+    let args = parse();
+    args.list
 }
 
 pub fn user() -> String {
