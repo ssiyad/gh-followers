@@ -2,6 +2,7 @@
 name = "gh-followers"
 version = "0.1.0"
 edition = "2024"
+authors = ["Sabu Siyad <hello@ssiyad.com>"]
 
 [dependencies]
 futures-util = "0.3.28"
@@ -15,3 +16,7 @@ features = ["full"]
 version = "0.48.0"
 features = ["stream"]
 path = "../octocrab"
+
+[dependencies.clap]
+version = "4.5.53"
+features = ["derive"]
