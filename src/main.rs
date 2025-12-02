@@ -9,4 +9,6 @@ async fn main() {
     let following = sources::following(&user).await;
     display::following(&following, &followers);
     display::followers(&followers, &following);
+    display::lurkers(&followers, &following);
+    display::ghosts(&following, &followers);
 }

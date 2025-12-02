@@ -38,3 +38,42 @@ pub fn followers(followers: &[Follower], followees: &[Followee]) {
 
     println!();
 }
+
+pub fn lurkers(followers: &[Follower], followees: &[Followee]) {
+    let users = followers
+        .iter()
+        .filter(|f| !followees.iter().any(|fe| fe.login == f.login))
+        .collect::<Vec<&Follower>>();
+
+    println!(
+        "{header} ({count})",
+        header = "Lurkers".blue().bold(),
+        count = users.len().to_string().bold()
+    );
+
+    for user in users {
+        print!("@{} ", user.login.bright_green());
+    }
+
+    println!();
+}
+
+// Lurkers: users who follow you but you do not follow back
+pub fn ghosts(followees: &[Followee], followers: &[Follower]) {
+    let users = followees
+        .iter()
+        .filter(|fe| !followers.iter().any(|f| f.login == fe.login))
+        .collect::<Vec<&Followee>>();
+
+    println!(
+        "{header} ({count})",
+        header = "Ghosts".blue().bold(),
+        count = users.len().to_string().bold()
+    );
+
+    for user in users {
+        print!("@{} ", user.login.bright_red());
+    }
+
+    println!();
+}
