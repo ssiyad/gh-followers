@@ -1,4 +1,5 @@
-use gh_followers::{config, display, sources};
+use ghf::sources;
+use ghf_cli::{config, display};
 
 #[tokio::main]
 async fn main() {

@@ -585,13 +585,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "gh-followers"
+name = "ghf"
+version = "0.1.0"
+dependencies = [
+ "futures-util",
+ "octocrab",
+ "tokio",
+]
+
+[[package]]
+name = "ghf-cli"
 version = "0.1.0"
 dependencies = [
  "clap",
  "colored",
- "futures-util",
- "octocrab",
+ "ghf",
  "tokio",
 ]
 

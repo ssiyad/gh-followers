@@ -1,5 +1,5 @@
 use colored::Colorize;
-use octocrab::models::{Followee, Follower};
+use ghf::{Followee, Follower};
 
 pub fn following(followees: &[Followee], followers: &[Follower]) {
     println!(
