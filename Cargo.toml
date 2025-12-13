@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["ghf", "cli"]
+members = ["ghf", "cli", "web"]
 
 # [dependencies]
 # ghf = { workspace = true }
