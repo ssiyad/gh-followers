@@ -738,6 +738,7 @@ dependencies = [
  "askama_web",
  "axum",
  "ghf",
+ "serde",
  "tokio",
 ]
 
