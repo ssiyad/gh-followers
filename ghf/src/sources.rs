@@ -27,6 +27,34 @@ pub async fn following(user: &str) -> Vec<Followee> {
         .unwrap()
 }
 
+pub async fn ghosts(user: &str) -> Vec<Followee> {
+    let followers = followers(user).await;
+    let following = following(user).await;
+    let followers_logins = followers
+        .into_iter()
+        .map(|x| x.login)
+        .collect::<Vec<String>>();
+
+    following
+        .into_iter()
+        .filter(|f| !followers_logins.contains(&f.login))
+        .collect()
+}
+
+pub async fn lurkers(user: &str) -> Vec<Follower> {
+    let followers = followers(user).await;
+    let following = following(user).await;
+    let following_logins = following
+        .into_iter()
+        .map(|x| x.login)
+        .collect::<Vec<String>>();
+
+    followers
+        .into_iter()
+        .filter(|f| !following_logins.contains(&f.login))
+        .collect()
+}
+
 pub fn init(token: &str) {
     octocrab::initialise(
         octocrab::OctocrabBuilder::default()

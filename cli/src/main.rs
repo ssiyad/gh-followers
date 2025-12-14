@@ -9,12 +9,14 @@ async fn main() {
     sources::init(&token);
     let followers = sources::followers(&user).await;
     let following = sources::following(&user).await;
+    let lurkers = sources::lurkers(&user).await;
+    let ghosts = sources::ghosts(&user).await;
 
     match list.as_str() {
         "following" => display::following(&following, &followers),
         "followers" => display::followers(&followers, &following),
-        "lurkers" => display::lurkers(&followers, &following),
-        "ghosts" => display::ghosts(&following, &followers),
+        "lurkers" => display::lurkers(&lurkers),
+        "ghosts" => display::ghosts(&ghosts),
         _ => (),
     }
 }
