@@ -1,4 +1,11 @@
 <div>
-	<div hx-get="/header" hx-trigger="load"></div>
-	<div hx-get="/search_box" hx-trigger="load"></div>
+  <div class="fixed p-4 flex justify-between w-full">
+    <div hx-get="/logo" hx-trigger="load"></div>
+    <div hx-get="/source_code" hx-trigger="load"></div>
+  </div>
+  <div
+    class="mx-auto w-max text-center absolute top-1/2 left-1/2 -translate-x-1/2"
+  >
+    <div hx-get="/search" hx-trigger="load"></div>
+  </div>
 </div>

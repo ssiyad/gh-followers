@@ -1,17 +1,30 @@
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Username</th>
-    <th>Link</th>
-  </tr>
+<div class="divide-y divide-gray-200">
   {% for ghost in ghosts %}
-  <tr>
-    <td>
-      <img src="{{ ghost.avatar_url }}" width="50px" height="50px" />
-      <div>{{ ghost.login }}</div>
-    </td>
-    <td>{{ ghost.id }}</td>
-    <td>{{ ghost.html_url }}</td>
-  </tr>
+  <div class="flex items-center gap-4 py-4">
+    <img
+      src="{{ ghost.avatar_url }}"
+      class="size-16 rounded-xl object-cover shadow-sm"
+    />
+    <div class="text-left">
+      <div class="font-medium text-shadow-xs text-shadow-gray-200">
+        @{{ ghost.login }}
+      </div>
+      <div class="text-sm flex items-center gap-2">
+        <a
+          class="text-gray-800 underline underline-offset-4"
+          href="{{ ghost.html_url }}"
+        >
+          Profile
+        </a>
+        <span class="text-gray-600">·</span>
+        <a
+          class="text-gray-800 underline underline-offset-4"
+          href="{{ ghost.repos_url }}"
+        >
+          Repositories
+        </a>
+      </div>
+    </div>
+  </div>
   {% endfor %}
-</table>
+</div>

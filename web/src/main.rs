@@ -1,6 +1,7 @@
 use axum::{Router, extract::Query, routing::get};
-use ghf_web::components::{Body, Header, Index, Search, TableGhosts};
+use ghf_web::components::{Body, Header, Index, Logo, Search, SourceCode, TableGhosts};
 use serde::Deserialize;
+use tower_http::services::ServeFile;
 
 #[tokio::main]
 async fn main() {
@@ -8,9 +9,12 @@ async fn main() {
     let app = Router::new()
         .route("/", get(index))
         .route("/body", get(body))
-        .route("/search_box", get(search_box))
+        .route("/search", get(search))
         .route("/header", get(header))
-        .route("/table_ghosts", get(table_ghosts));
+        .route("/logo", get(logo))
+        .route("/source_code", get(source_code))
+        .route("/table_ghosts", get(table_ghosts))
+        .nest_service("/static/main.css", ServeFile::new("web/static/main.css"));
 
     // run our app with hyper, listening globally on port 3000
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
@@ -25,12 +29,20 @@ async fn body() -> Body {
     Body {}
 }
 
-async fn search_box() -> Search {
+async fn search() -> Search {
     Search {}
 }
 
 async fn header() -> Header {
     Header {}
+}
+
+async fn logo() -> Logo {
+    Logo {}
+}
+
+async fn source_code() -> SourceCode {
+    SourceCode {}
 }
 
 #[derive(Debug, Deserialize)]
