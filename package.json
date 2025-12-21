@@ -1,0 +1,24 @@
+{
+  "name": "ghf",
+  "version": "0.0.0",
+  "description": "A Rust command-line tool to query GitHub user relationships (ghosts, lurkers, followers, followees) using the official GitHub CLI (`gh`).",
+  "homepage": "https://github.com/ssiyad/gh-followers#readme",
+  "bugs": {
+    "url": "https://github.com/ssiyad/gh-followers/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssiyad/gh-followers.git"
+  },
+  "license": "GPL-3.0",
+  "author": "Sabu Siyad <hello@ssiyad.com>",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss --input ./web/css/main.css --output ./web/static/main.css --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}
